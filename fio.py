@@ -2,8 +2,7 @@ import urllib2
 import json
 from secrets import *
 
-#url = 'https://www.fio.cz/ib_api/rest/last/{token}/transactions.json'
-url = 'https://www.fio.cz/ib_api/rest/by-id/{token}/2017/5/transactions.json'
+url = 'https://www.fio.cz/ib_api/rest/last/{token}/transactions.json'
 
 url = urllib2.urlopen(url.format(token=FIO_TOKEN))
 response = url.read()
