@@ -1,0 +1,9 @@
+FIO_TOKEN = '';
+
+FROM = ''
+TO = ['']
+
+SMTP_SERVER = ''
+SMTP_PORT = 0
+SMTP_USER = ''
+SMTP_PASSWORD = ''
