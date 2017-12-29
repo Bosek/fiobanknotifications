@@ -9,4 +9,5 @@ text = ''
 for transaction in transactions:
     text += u'Jméno: {name}\nČástka: {volume} Kč\nVS: {identification}\n\n'.format(name=transaction['name'], volume=transaction['volume'], identification=transaction['identification'] if transaction['identification'] != None else u'nezadáno')
 
-mail.send_mail(title, text)
+if len(transactions) > 0:
+    mail.send_mail(title, text)
