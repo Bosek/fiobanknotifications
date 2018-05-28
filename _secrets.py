@@ -4,6 +4,7 @@ FIO_TOKEN = ''
 FROM = ''
 TO = ['']
 LOCALE = 'czech' #For currency formatting
+ACCOUNT_NAME = '' #Identifier for account used in email
 
 SMTP_SERVER = ''
 SMTP_PORT = 0

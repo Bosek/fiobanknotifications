@@ -5,8 +5,8 @@ import fio
 import secrets
 
 locale.setlocale(locale.LC_ALL, secrets.LOCALE)
-title = u'FIO Bank příchozí platby'
-text = ''
+title = u'FIO Bank příchozí platby, účet {0}'.format(secrets.ACCOUNT_NAME)
+text = 'Účet {0}:\n'.format(secrets.ACCOUNT_NAME)
 
 transactions = fio.get_data()
 
