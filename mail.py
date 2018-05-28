@@ -9,8 +9,14 @@ def send_mail(title, text):
     message['From'] = FROM
     message['To'] = ", ".join(TO)
 
-    smtp = smtplib.SMTP(SMTP_SERVER, SMTP_PORT)
-    smtp.starttls()
+    smtp = None
+    if SMTP_SSL:
+        smtp = smtplib.SMTP_SSL(SMTP_SERVER, SMTP_PORT)
+    else:
+        smtp = smtplib.SMTP(SMTP_SERVER, SMTP_PORT)
+
+    if SMTP_TTL:
+        smtp.starttls()
     smtp.login(SMTP_USER, SMTP_PASSWORD)
 
     smtp.sendmail(message['From'], TO, message.as_string())

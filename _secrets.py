@@ -3,10 +3,11 @@ FIO_TOKEN = ''
 
 FROM = ''
 TO = ['']
-LOCALE = '' #For currency formatting eg. czech
+LOCALE = 'czech' #For currency formatting
 
-# Please note that I am using TLS connection. See mail.py if you need to adjust email server connection
 SMTP_SERVER = ''
 SMTP_PORT = 0
 SMTP_USER = ''
 SMTP_PASSWORD = ''
+SMTP_SSL = True
+SMTP_TLS = False
