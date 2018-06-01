@@ -4,7 +4,7 @@ from secrets import *
 
 def get_data():
     url = 'https://www.fio.cz/ib_api/rest/last/{token}/transactions.json'
-    response = urllib2.urlopen(url.format(token=FIO_TOKEN)).read()
+    response = urllib2.urlopen(url.format(token=FIO_TOKEN), timeout=120).read()
     data = json.loads(response)
     transactions = data['accountStatement']['transactionList']['transaction']
 
