@@ -11,4 +11,4 @@ SMTP_PORT = 0
 SMTP_USER = ''
 SMTP_PASSWORD = ''
 SMTP_SSL = True
-SMTP_TLS = False
+SMTP_TTL = False
