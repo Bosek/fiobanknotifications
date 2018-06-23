@@ -3,6 +3,9 @@ import locale
 import mail
 import fio
 import secrets
+import sys
+reload(sys)
+sys.setdefaultencoding('utf-8')
 
 locale.setlocale(locale.LC_ALL, secrets.LOCALE)
 title = u'FIO Bank příchozí platby, účet {0}'.format(secrets.ACCOUNT_NAME)
