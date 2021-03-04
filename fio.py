@@ -4,9 +4,9 @@ from config import *
 
 def get_data():
     url = "https://www.fio.cz/ib_api/rest/last/{token}/transactions.json"
-    response = urlopen(url.format(token=FIO_TOKEN), timeout=120).read()
+    response = urlopen(url.format(token=FIO_TOKEN), timeout=120)
     encoding = response.info().get_content_charset('utf-8')
-    data = json.loads(response.decode(encoding))
+    data = json.loads(response.read().decode(encoding))
     transactions = data["accountStatement"]["transactionList"]["transaction"]
 
     incoming_transactions = []
