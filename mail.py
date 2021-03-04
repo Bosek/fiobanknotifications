@@ -1,13 +1,14 @@
 import smtplib
-from secrets import *
-
 from email.mime.text import MIMEText
+from config import *
+
 
 def send_mail(title, text):
-    message = MIMEText(text, 'plain', 'utf8')
-    message['Subject'] = title
-    message['From'] = FROM
-    message['To'] = ", ".join(TO)
+    print("Sending an email to %s" % ", ".join(TO))
+    message = MIMEText(text, "plain", "utf8")
+    message["Subject"] = title
+    message["From"] = FROM
+    message["To"] = ", ".join(TO)
 
     smtp = None
     if SMTP_SSL:
@@ -19,5 +20,5 @@ def send_mail(title, text):
         smtp.starttls()
     smtp.login(SMTP_USER, SMTP_PASSWORD)
 
-    smtp.sendmail(message['From'], TO, message.as_string())
+    smtp.sendmail(message["From"], TO, message.as_string())
     smtp.quit()

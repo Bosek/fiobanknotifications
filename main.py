@@ -1,26 +1,38 @@
-# -*- coding: utf-8 -*-
+import importlib
 import locale
-import mail
 import fio
-import secrets
-import sys
-reload(sys)
-sys.setdefaultencoding('utf-8')
+import mail
+import config
+import sms
 
-locale.setlocale(locale.LC_ALL, secrets.LOCALE)
-title = u'FIO Bank příchozí platby, účet {0}'.format(secrets.ACCOUNT_NAME)
-text = 'Účet {0}:\n'.format(secrets.ACCOUNT_NAME)
+locale.setlocale(locale.LC_ALL, config.LOCALE)
 
 transactions = fio.get_data()
 
-for transaction in transactions:
-    text += u'Jméno: {name}\n'.format(name=transaction['name'])
-    text += u'Částka: {volume}{currency}\n'.format(volume=locale.currency(transaction['volume'], False, True).replace('\xa0', ' '), currency=transaction['currency'])
-    if transaction['identification'] != None:
-        text += u'VS: {identification}\n'.format(identification=transaction['identification'])
-    if transaction['message'] != None:
-        text += u'Zpráva pro příjemce: {message}\n'.format(message=transaction['message'])
-    text += '\n'
+if (config.USEMAIL):
+    title = u"FIO Bank příchozí platby, účet %s" % config.ACCOUNT_NAME
+    text = "Účet %s:\n" % config.ACCOUNT_NAME
 
-if len(transactions) > 0:
-    mail.send_mail(title, text)
+    for transaction in transactions:
+        text += u"Jméno: %s\n" % transaction["name"]
+        text += u"Částka: %s %s\n" % (locale.currency(transaction["volume"], False, True).replace("\xa0", " "), transaction["currency"])
+        if transaction["identification"] is not None:
+            text += u"VS: %s\n" % transaction["identification"]
+        if transaction["message"] is not None:
+            text += u"Zpráva pro příjemce: %s\n" % transaction["message"]
+        text += "\n"
+
+    if len(transactions) > 0:
+        mail.send_mail(title, text)
+
+if (config.USEBULKGATE):
+    for transaction in transactions:
+        text = "Příchozí platba na účet %s\n" % config.ACCOUNT_NAME
+        text += u"Jméno: %s\n" % transaction["name"]
+        text += u"Částka: %s %s\n" % (locale.currency(transaction["volume"], False, True).replace("\xa0", " "), transaction["currency"])
+        if transaction["identification"] is not None:
+            text += u"VS: %s\n" % transaction["identification"]
+        if transaction["message"] is not None:
+            text += u"Zpráva pro příjemce: %s\n" % transaction["message"][0:20]
+        text += "\n"
+        sms.send_sms(text)

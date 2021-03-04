@@ -1,28 +1,28 @@
-import urllib2
+from urllib.request import urlopen
 import json
-from secrets import *
+from config import *
 
 def get_data():
-    url = 'https://www.fio.cz/ib_api/rest/last/{token}/transactions.json'
-    response = urllib2.urlopen(url.format(token=FIO_TOKEN), timeout=120).read()
+    url = "https://www.fio.cz/ib_api/rest/last/{token}/transactions.json"
+    response = urlopen(url.format(token=FIO_TOKEN), timeout=120).read()
     data = json.loads(response)
-    transactions = data['accountStatement']['transactionList']['transaction']
+    transactions = data["accountStatement"]["transactionList"]["transaction"]
 
     incoming_transactions = []
     parsed_transactions = []
 
     for transaction in transactions:
-        if transaction['column1']['value'] > 0:
+        if transaction["column1"]["value"] > 0:
             incoming_transactions.append(transaction)
     
     for transaction in incoming_transactions:
-        if transaction['column7'] != None:
+        if transaction["column7"] != None:
             parsed = {}
-            parsed['name'] = transaction['column7']['value']
-            parsed['volume'] = transaction['column1']['value']
-            parsed['identification'] = transaction['column5']['value'] if transaction['column5'] != None else None
-            parsed['currency'] = transaction['column14']['value']
-            parsed['message'] = transaction['column16']['value'] if transaction['column16'] != None else None
+            parsed["name"] = transaction["column7"]["value"]
+            parsed["volume"] = transaction["column1"]["value"]
+            parsed["identification"] = transaction["column5"]["value"] if transaction["column5"] != None else None
+            parsed["currency"] = transaction["column14"]["value"].upper()
+            parsed["message"] = transaction["column16"]["value"] if transaction["column16"] != None else None
             parsed_transactions.append(parsed)
 
     return parsed_transactions
